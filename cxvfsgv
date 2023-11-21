@@ -1,0 +1,123 @@
+CREATE TABLE login (
+    Officer_id SERIAL PRIMARY KEY,
+    Password VARCHAR(255) NOT NULL,
+    Officer_Type VARCHAR(255) NOT NULL
+);
+
+
+
+insert into login(Password,officer_type) values(1234,'field officer') RETURNING officer_id_SEQ.currval AS id;
+-- Assuming you have already created the "login" table with a SERIAL column Officer_id
+INSERT INTO login (Password, Officer_Type)
+VALUES ('12345', 'insurance officer')
+RETURNING Officer_id AS id;
+select * from login
+select * from customer_details
+select * from vehicle_INSURANCE
+
+CREATE TABLE customer_details (
+    Customer_Id SERIAL PRIMARY KEY,
+    Customer_Name VARCHAR(100) NOT NULL,
+    DOB DATE NOT NULL,
+    Email_Id VARCHAR(100) UNIQUE NOT NULL,
+    Address VARCHAR(255) NOT NULL,
+    Contact_No BIGINT NOT NULL,
+    PhotoId_Proof VARCHAR(100) NOT NULL,
+    PhotoId_Number VARCHAR(50) UNIQUE NOT NULL,
+    Address_Proof VARCHAR(100) NOT NULL,
+    AddressId_Number VARCHAR(50) UNIQUE NOT NULL,
+    Registration_Date DATE NOT NULL
+);
+update insurance set policy_end_date=current_date-1;
+INSERT  INTO  customer_details(Customer_Name ,
+    DOB ,
+    Email_Id ,
+    Address ,
+    Contact_No,
+    PhotoId_Proof ,
+    PhotoId_Number ,
+    Address_Proof,
+    AddressId_Number ,
+    Registration_Date)  VALUES('saiii','2023-05-23','saiiii@gmail.com','jytjyfgjv',9078563412,'PAN Card',5667765675,'Aadhar',56567545, '2023-11-21') RETURNING customer_id
+CREATE TABLE policy_details (
+    Policy_Id SERIAL PRIMARY KEY,
+    Policy_Name VARCHAR(100) NOT NULL,
+    Policy_Description VARCHAR(255),
+    Policy_Type VARCHAR(50) NOT NULL
+);
+
+select * from policy_details
+select * from insurance
+insert into policy_details values(4,'vehi','suii','vehicle')
+update insurance set policy_status='ACTIVE' 
+drop table insurance cascade 
+select * from claim_details
+select * from vehicle_insurance
+
+CREATE TABLE insurance (
+    Policy_Ref_No serial PRIMARY KEY,
+    Customer_Id INTEGER,
+    Policy_Id INTEGER,
+    Policy_commencement_Date DATE NOT NULL,
+    Policy_End_Date DATE NOT NULL,
+    Payment_Mode VARCHAR(50),
+    Payment_Frequency VARCHAR(50) NOT NULL,
+    Policy_Tenure INTEGER NOT NULL,
+    Policy_Premium_Amount NUMERIC NOT NULL,
+    Policy_Status VARCHAR(50) NOT NULL,
+    CONSTRAINT fk_customer FOREIGN KEY (Customer_Id) REFERENCES customer_details(Customer_Id),
+    CONSTRAINT fk_policy FOREIGN KEY (Policy_Id) REFERENCES policy_details(Policy_Id)
+);
+
+drop table vehicle_insurance cascade
+
+update  vehicle_insurance set customer_id=4
+
+CREATE TABLE vehicle_insurance (
+    Policy_Ref_No serial PRIMARY KEY,
+    Customer_Id INTEGER,
+    Policy_Id INTEGER,
+    Vehicle_No VARCHAR(20) NOT NULL,
+    License_No VARCHAR(20) NOT NULL,
+    Vehicle_Type VARCHAR(50) NOT NULL,
+    Policy_commencement_Date DATE,
+    Policy_End_Date DATE,
+    Payment_Mode VARCHAR(50),
+    Payment_Frequency VARCHAR(50),
+    Policy_Premium_Amount NUMERIC,
+    Policy_Status VARCHAR(50),
+    CONSTRAINT fk_customer FOREIGN KEY (Customer_Id) REFERENCES customer_details(Customer_Id),
+    CONSTRAINT fk_policy FOREIGN KEY (Policy_Id) REFERENCES policy_details(Policy_Id)
+);
+drop table vehicle_insurance cascade
+
+CREATE TABLE claim_details (
+    Claim_Id SERIAL PRIMARY KEY,
+    Customer_Id INTEGER,
+    Policy_Ref_No integer,
+    Claim_Amount VARCHAR(100) NOT NULL,
+    Claim_submission_Date DATE NOT NULL,
+    Beneficiary_Name VARCHAR(100) NOT NULL,
+    Beneficiary_Address VARCHAR(255) NOT NULL,
+    Beneficiary_Email VARCHAR(100) NOT NULL,
+    Beneficiary_Contact_no NUMERIC NOT NULL,
+    Claim_Status VARCHAR(50) NOT NULL,
+    Claim_Rejection_Reason VARCHAR(255),
+    CONSTRAINT fk_customer_claim FOREIGN KEY (Customer_Id) REFERENCES customer_details(Customer_Id),
+    CONSTRAINT fk_policy_claim FOREIGN KEY (Policy_Ref_No) REFERENCES insurance(Policy_Ref_No) 
+);
+drop table claim_details cascade
+
+INSERT INTO login (Password, officer_type)
+VALUES (1234, 'field officer')
+RETURNING CUSTOMER_ID_SEQ.nextval AS id;
+insert into 
+select * from dual
+
+UPDATE INSURANCE SET POLICY_STATUS='INACTIVE' WHERE POLICY_END_DATE<=TO_DATE(CURRENT_DATE,'dd/MM/yyyy')
+
+UPDATE insurance
+SET POLICY_STATUS = 'INACTIVE'
+WHERE POLICY_END_DATE <= CURRENT_DATE;
+
+
